@@ -1,9 +1,9 @@
 /**
  * Created by minhhung on 6/9/18.
  */
-import {EMAIL_CHANGED} from "../actions/types";
+import {EMAIL_CHANGED, PASSWORD_CHANGED} from "../actions/types";
 
-const INITIAL_STATE = {email: ''};
+const INITIAL_STATE = {email: '', password: ''};
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
@@ -26,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
              * therefore, Redux won't update the application state object and components will not be re-rendered.
              */
             return {...state, email: action.payload};
+        case PASSWORD_CHANGED:
+            return {...state, password: action.payload};
         default:
             return state;
     }

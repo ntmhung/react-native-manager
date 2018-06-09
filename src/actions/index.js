@@ -1,12 +1,19 @@
 /**
  * Created by minhhung on 6/9/18.
  */
-import {EMAIL_CHANGED} from "./types";
+import {EMAIL_CHANGED, PASSWORD_CHANGED} from "./types";
 
-export const emailChange = (text) => {
+export const emailChanged = (email) => {
     return {
         type: EMAIL_CHANGED,
-        payload: text
+        payload: email
+    };
+};
+
+export const passwordChanged = (password) => {
+    return {
+        type: PASSWORD_CHANGED,
+        payload: password
     };
 };
 
