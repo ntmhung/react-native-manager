@@ -3,7 +3,10 @@ import { View } from 'react-native';
 
 const CardSection = (props) => {
     return (
-        <View style={styles.containerStyle}>
+        /* Style attribute accepts value as array. The most right (or higher key order) array item will overwrite
+         * any style on the left (the value lower key order) array item
+         */
+        <View style={[styles.containerStyle, props.style]}>
             {props.children}
         </View>
     );
