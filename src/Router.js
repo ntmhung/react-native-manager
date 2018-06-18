@@ -17,7 +17,7 @@ const RouterComponent = () => {
      */
     return (
         <Router>
-            <Scene key="root" hideNavBar>
+            <Scene key="root" hideNavBar initial>
                 <Scene key="auth">
                     <Scene
                         key="login"
@@ -25,7 +25,7 @@ const RouterComponent = () => {
                         title="Login"
                     />
                 </Scene>
-                <Scene key="main" initial>
+                <Scene key="main">
                     <Scene
                         key="employeeList"
                         component={EmployeeList}

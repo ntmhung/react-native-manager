@@ -5,9 +5,16 @@ import React, {Component} from "react";
 import {Picker, Text} from "react-native";
 import {Card, CardSection, Input, Button} from "./common";
 import {connect} from "react-redux";
-import {employeeUpdate} from "../actions";
+import {employeeUpdate, employeeCreate} from "../actions";
 
 class EmployeeCreate extends Component {
+    //Can set default value to form with componentWillMount()
+
+    onButtonPress() {
+        const {name, phone, shift} = this.props;
+        //Set default value of shift to Monday
+        this.props.employeeCreate({name, phone, shift: shift || 'Monday'});
+    }
 
     render() {
         return (
@@ -17,7 +24,7 @@ class EmployeeCreate extends Component {
                         label="Name"
                         placeholder="employee name"
                         value={this.props.name}
-                        onChange={value => this.props.employeeUpdate({prop: 'name', value})}
+                        onChangeText={value => this.props.employeeUpdate({prop: 'name', value})}
                     />
                 </CardSection>
 
@@ -26,7 +33,7 @@ class EmployeeCreate extends Component {
                         label="Phone"
                         placeholder="555-5555"
                         value={this.props.phone}
-                        onChange={value => this.props.employeeUpdate({prop: 'phone', value})}
+                        onChangeText={value => this.props.employeeUpdate({prop: 'phone', value})}
                     />
                 </CardSection>
 
@@ -50,7 +57,7 @@ class EmployeeCreate extends Component {
                 </CardSection>
 
                 <CardSection>
-                    <Button>Create</Button>
+                    <Button onPress={this.onButtonPress.bind(this)}>Create</Button>
                 </CardSection>
             </Card>
         )
@@ -69,4 +76,4 @@ const mapStateToProps = (state) => {
     return {name, phone, shift};
 };
 
-export default connect(mapStateToProps, {employeeUpdate})(EmployeeCreate);
+export default connect(mapStateToProps, {employeeUpdate, employeeCreate})(EmployeeCreate);
