@@ -37,7 +37,8 @@ export const employeesFetch = () => {
         /*
          * the 'value' event handler will watch for the data come across the ref() above. So we only need to call the
          * employeesFetch action creator one time, and firebase will watch for the data changes to the ref() and call the
-         * snapshot function. Ex: when create new employee and push the data to the ref, thi snapshot function will be call
+         * snapshot function. Ex: when create new employee and push the data to the ref, thi snapshot function will be call.
+         * Exist for the lifecycle of the app
          */
             .on('value', snapshot => {
                 dispatch({type: EMPLOYEES_FETCH_SUCCESS, payload: snapshot.val()});
