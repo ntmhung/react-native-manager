@@ -2,14 +2,16 @@
  * Created by minhhung on 6/23/18.
  */
 import React, {Component} from "react";
-import _ from "lodash";
-import {Card, CardSection, Button} from "./common";
-import EmployeeForm from "./EmployeeForm";
 import {connect} from "react-redux";
-import {employeeUpdate, employeeSave} from "../actions";
-
+import Communications from "react-native-communications";
+import _ from "lodash";
+import EmployeeForm from "./EmployeeForm";
+import {employeeUpdate, employeeSave, employeeDelete} from "../actions";
+import {Card, CardSection, Button, Confirm} from "./common";
 
 class EmployeeEdit extends Component {
+    state = {showModal: false};
+
     componentWillMount() {
         /*
          * call employeeUpdate action creator to bind new value to EmployeeFormReducer in order to get the original
@@ -21,10 +23,29 @@ class EmployeeEdit extends Component {
         })
     }
 
-    onButtonPress() {
+    onEditPress() {
         const {name, phone, shift} = this.props;
 
         this.props.employeeSave({name, phone, shift, uid: this.props.employee.uid})
+    }
+
+    onTextPress() {
+        const {phone, shift} = this.props;
+
+        Communications.text(phone, `Your upcoming shift is on ${shift}`);
+    }
+
+    onFirePress() {
+        this.setState({showModal: !this.state.showModal});
+    }
+
+    onAccept() {
+        const {uid} = this.props.employee.uid;
+        this.props.employeeDelete({uid})
+    }
+
+    onDecline() {
+        this.setState({showModal: false});
     }
 
     render() {
@@ -32,8 +53,23 @@ class EmployeeEdit extends Component {
             <Card>
                 <EmployeeForm />
                 <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>Edit</Button>
+                    <Button onPress={this.onEditPress.bind(this)}>Save Changes</Button>
                 </CardSection>
+
+                <CardSection>
+                    <Button onPress={this.onTextPress.bind(this)}>Text Schedule</Button>
+                </CardSection>
+
+                <CardSection>
+                    <Button onPress={this.onFirePress.bind(this)}>Fire</Button>
+                </CardSection>
+
+                <Confirm visible={this.state.showModal}
+                         onAccept={this.onAccept}
+                         onDecline={this.onDecline}
+                >
+                    Are you sure to fire this employee?
+                </Confirm>
             </Card>
         )
     }
@@ -44,4 +80,4 @@ const mapStateToProps = state => {
     return {name, phone, shift};
 };
 
-export default connect(mapStateToProps, {employeeUpdate, employeeSave})(EmployeeEdit);
+export default connect(mapStateToProps, {employeeUpdate, employeeSave, employeeDelete})(EmployeeEdit);
